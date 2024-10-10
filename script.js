@@ -13,25 +13,29 @@ let RockPaperScissors = (n) => {
   }
 };
 
-userInput = window.prompt("Wrote your choice rock paper scissors");
-let getHumanChoice = () => {
-  userchoice =userInput.toLowerCase() ;
-  return userchoice
-};
+userInput = "";
+//eski yöntem
+// let getHumanChoice = () => {
+//   userchoice =userInput.toLowerCase() ;
+//   return userchoice
+// };
 
 let humanScore = 0;
 let computerScore = 0;
 
-function playRound(humanChoice, computerChoice) {
+let score = document.querySelector(".score");
 
-    console.log(humanChoice,computerChoice)
+function playRound(humanChoice, computerChoice) {
+  console.log("game started");
+  console.log(computerChoice)
   if (humanChoice == computerChoice) {
     console.log("its a tie!");
+    return
   }
   if (computerChoice == "rock") {
     if (humanChoice == "scissors") {
       computerScore++;
-      console.log("computer won!") ;
+      console.log("computer won!");
     } else {
       humanScore++;
       console.log("meatbag won!");
@@ -40,7 +44,7 @@ function playRound(humanChoice, computerChoice) {
   if (computerChoice == "scissors") {
     if (humanChoice == "paper") {
       computerScore++;
-      console.log("computer won!")
+      console.log("computer won!");
     } else {
       humanScore++;
       console.log("meatbag won!");
@@ -49,13 +53,29 @@ function playRound(humanChoice, computerChoice) {
   if (computerChoice == "paper") {
     if (humanChoice == "rock") {
       computerScore++;
-      console.log("computer won!")
+      console.log("computer won!");
     } else {
       humanScore++;
       console.log("meatbag won!");
     }
   }
-  return humanScore,computerScore
+
+  if (humanScore == 5 || computerScore == 5) {
+    score.textContent = humanScore > computerScore
+      ?  "Meatbag won the game"
+      : "Computer won the game";
+
+    score.textContent += `Score : Meatbag : ${humanScore} | Computer: ${computerScore} `
+    return;
+  }
+  score.textContent = `Score : Meatbag : ${humanScore} | Computer: ${computerScore} `;
 }
 
-playRound(getHumanChoice(),getComputerChoice());
+let buttons = document.querySelectorAll(".choice");
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const userInput = e.target.textContent;
+    console.log(userInput); // Tıklanan butonun metni
+    playRound(userInput,getComputerChoice())
+  });
+});
